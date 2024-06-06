@@ -9,10 +9,15 @@ import { LoginRepositoryApi } from '../../core/infrastructure/api/login.reposito
 export class AuthService {
   private path: string = '/auth';
   public context: string = '';
+  private token: string = 'asdsadsad';
 
   constructor(
     private loginRepositoryApi: LoginRepositoryApi
   ) { }
+
+  isAuth() {
+    return this.token.length > 0;
+  }
 
   login(payload: any): Promise<any> {
     this.context = '/login';
