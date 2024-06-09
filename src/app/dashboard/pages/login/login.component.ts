@@ -1,24 +1,22 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../shared/services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   standalone: true,
-  imports: [],
+  imports: [ CommonModule ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 export default class LoginComponent {
   email: string = '';
   password: string = '';
-  // login: any;
 
   constructor(
     private router: Router,
     private authService: AuthService
   ) { 
-    // this.login = new Login()
   }
 
   async login(): Promise<void> {
