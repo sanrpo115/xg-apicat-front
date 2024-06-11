@@ -5,15 +5,11 @@ import { Injectable, inject } from "@angular/core";
 @Injectable({
   providedIn: 'root'
 })
-export class LoginRepositoryApi {
+export class CatRepositoryApi {
   private readonly apiService = inject(ApiService);
 
   get(path: string): Observable<any[]> {
     return this.apiService.get(path);
-  }
-
-  post(path: string, data: any): Observable<any> {
-    return this.apiService.post(path, data);
   }
   
 }

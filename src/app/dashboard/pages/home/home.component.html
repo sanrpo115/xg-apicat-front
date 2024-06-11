@@ -1,1 +1,16 @@
-<p>home works!</p>
+<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+    <img class="mx-auto h-28 w-auto" src="https://png.pngtree.com/png-vector/20231014/ourmid/pngtree-funny-cat-character-sticker-png-image_10157880.png" alt="Your Company">
+    <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Hola, bienvenido(a)</h2>
+  </div>
+  <div class="select mt-10 w-full max-w-lg mx-auto">
+    <label id="listbox-label" class="block text-sm font-medium leading-6 text-gray-900">Seleccionar raza</label>
+    <div class="relative mt-2">
+      <select name="sltBreed" id="sltBreed" (change)="onChangeList($event)">
+        <option value="" selected disabled>Seleccionar</option>
+        @for (breed of breedsData; track breed.id) {
+          <option value="{{breed.id}}">{{breed.name}}</option>
+        }
+      </select>
+  </div>
+</div>

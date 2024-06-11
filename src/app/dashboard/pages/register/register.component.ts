@@ -1,17 +1,17 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../shared/services/auth.service';
-import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AlertComponent } from '../../../shared/components/alert/alert.component';
+import { AuthService } from '../../../shared/services/auth.service';
+import { AlertComponent } from "../../../shared/components/alert/alert.component";
 
 @Component({
-  standalone: true,
-  imports: [ CommonModule, ReactiveFormsModule, AlertComponent ],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+    selector: 'app-register',
+    standalone: true,
+    templateUrl: './register.component.html',
+    imports: [CommonModule, ReactiveFormsModule, AlertComponent]
 })
-export default class LoginComponent {
+export default class RegisterComponent {
   form: FormGroup;
   submitted: boolean = false;
   showModal: boolean = false;
@@ -19,7 +19,7 @@ export default class LoginComponent {
   private readonly authService: AuthService = inject(AuthService);
 
   constructor(
-    private fb: FormBuilder, 
+    private fb: FormBuilder,
     private router: Router
   ) {
     this.form = this.createForm();
@@ -27,24 +27,25 @@ export default class LoginComponent {
 
   createForm(): FormGroup {
     return this.fb.group({
+      name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     })
   }
 
-  async loginUser(): Promise<void> {
+  async registerUser():Promise<void> {
     try {
       this.submitted = true;
       if (this.form.valid) {
         this.submitted = false;
         let values = this.form.value;
-        const response = await this.authService.login(values); 
+        const response = await this.authService.register(values); 
         console.log("Response API :::>", response);
         sessionStorage.setItem('access_token', response.token);
-        this.navigateTo('/api-cat/home');
+        this.handleModal({ message: 'Usuario creado correctamente', type: 'Confirmation', title: 'Felicidades!', navigate: true });
       }
     } catch (error: any) {
-      console.log('Error Login: ', error.error.error)
+      console.log('Error register: ', error.error.error)
       this.handleModal({ message: error.error.error, type: 'Error', title: 'Ups!', navigate: false});
     }
   }
@@ -54,12 +55,15 @@ export default class LoginComponent {
     this.showModal = true;
   }
 
-  navigateTo(path: string): void {
-    this.router.navigate([path])
+  navigateTo(): void {
+    this.router.navigate(['/api-cat/login'])
   }
 
-  toggleModal(): void {
+  toggleModal(navigate: boolean): void {
     this.showModal = false;
+    if (navigate) {
+      this.navigateTo();
+    }
   }
 
 }
